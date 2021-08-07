@@ -1,7 +1,8 @@
 # catRlog
 ### A photo-ID project management system based in R
 
-Submitted for publication in *Mammalian Biology*, pending successful peer review.
+Published in [*Mammalian Biology*](https://link.springer.com/article/10.1007%2Fs42991-021-00158-7) (also viewable [here](https://rdcu.be/csdPC)).  
+
 
 To get started with **catRlog**, download the zipped 'catRlog' directory to your local computer.
 
