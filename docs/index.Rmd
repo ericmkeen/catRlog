@@ -1,0 +1,69 @@
+---
+title: "`R` package **`catRlog`**"
+output:
+  html_document:
+    toc: true
+    toc_depth: 5
+    toc_float: 
+      collapsed: false
+author: Eric Keen Ezell
+date: "2025-01-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+&nbsp;  
+
+Photo-identification (photo-ID) databases can comprise versatile troves of information for well-studied animal populations and, when organized well and curated carefully, can be readily applied to a wide range of research questions, such as population abundance estimates, meta-population connectivity and social network structure. To bring the potential impact of photo-ID data within reach of a greater number of research groups, we introduce an R-based photo-ID project management system, named **`catRlog`**.  
+
+
+**`catRlog`** serves as a workflow organizer that simplifies, streamlines, and improves the quality of photo-ID data processing. The system can be utilized by research teams in a number of ways, ranging from automated formatting and printing of a photo-ID catalog, to photo-ID matching, thereby creating and expanding a historical catalog, to processing of identification data to generate datasets necessary for site fidelity, mark–recapture, and social association analyses. As an `R`-based tool, the apps are open-source, cross-platform, readily customizable, and easily updated.  
+
+
+**`catRlog`** has been tested using photo-ID databases of humpback whales (*Megaptera novaeangliae*) and fin whales (*Balaenoptera physalus*) within a mainland fjord system of Pacific Canada, but is a generalized system useful for almost any photo-ID project of any species in any habitat. A detailed user guide and example dataset are provided through links in the [Github Repo](https://github.com/ericmkeen/catRlog).  
+
+Note that `catRlog` was originally produced as a downloadable folder system -- essentially a simplistic version of an `R` package -- in association with this publication in a special issue in the Journal of Mammalogy. We have since converted `catRlog` to a proper R package in order to make it easier to use, maintain, and improve. The documentation in this vignette, and also within the help documentation for the `R` functions, provide the most up-to-date support. The `catRlog` system was developed by [Eric Keen](https://new.sewanee.edu/our-faculty-staff/eric-ezell/), [Éadin O'Mahony](https://eadinomahony.wordpress.com/), Julia Wren and [Janie Wray](https://bcwhales.org/our-team/). 
+
+
+### Installation
+
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+# Make sure you have "devtools" installed
+if (!require('devtools')) install.packages('devtools')
+
+# Install from GitHub
+devtools::install_github('ericmkeen/catRlog')
+
+# Load the libraray
+library(catRlog)
+
+# Explore help files and their examples
+?catRlog
+```
+
+
+### Setup your project
+
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+
+```
+
+
+### Workflow
+
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+
+```
+
+
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+
+```
+
+
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+
+```
+

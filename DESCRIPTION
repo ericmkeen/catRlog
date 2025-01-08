@@ -1,0 +1,24 @@
+Package: catRlog
+Title: A Photo-ID Project Management System Based in R
+Version: 0.0.1
+Authors@R: 
+    person("Eric", "Keen", , "ekezell@sewanee.edu", role = c("aut", "cre"))
+Description: Photo-identification (photo-ID) databases can comprise versatile troves of information for well-studied animal populations and, when organized well and curated carefully, can be readily applied to a wide range of research questions, such as population abundance estimates, meta-population connectivity and social network structure. To bring the potential impact of photo-ID data within reach of a greater number of research groups, we introduce an R-based photo-ID project management system, named `catRlog`. `catRlog` serves as a workflow organizer that simplifies, streamlines, and improves the quality of photo-ID data processing. The system can be utilized by research teams in a number of ways, ranging from automated formatting and printing of a photo-ID catalog, to photo-ID matching, thereby creating and expanding a historical catalog, to processing of identification data to generate datasets necessary for site fidelity, mark–recapture, and social association analyses. As an R-based tool, the apps are open-source, cross-platform, readily customizable, and easily updated. catRlog has been tested using photo-ID databases of humpback whales (Megaptera novaeangliae) and fin whales (Balaenoptera physalus) within a mainland fjord system of Pacific Canada, but is a generalized system useful for almost any photo-ID project of any species in any habitat. A detailed user guide and example dataset are provided through links in the Github Repo.
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: 
+    assocInd,
+    dplyr,
+    DT,
+    exifr,
+    exiftoolr,
+    fields,
+    ggplot2,
+    igraph,
+    imager,
+    pander,
+    shiny,
+    shinyjs,
+    tidyr
