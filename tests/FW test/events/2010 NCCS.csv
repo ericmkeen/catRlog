@@ -1,0 +1,23 @@
+file,id,year,month,day,time,group,feature,Location,Nominal.Cordinates,lat,lon,Min.,Max.,Best,photographer,id.dfo
+FW_2010-07-02_NCCS_SkinnerIs_D-1781,fw0008,2010,7,2,1840,1,Left Dorsal,Skinner Islands,YES,53.1,-129.3,2,2,2,North Coast Cetacean Society,FW0010
+FW_2010-07-02_NCCS_SkinnerIs_D-1786,fw0011,2010,7,2,1840,1,Left Dorsal,Skinner Islands,YES,53.1,-129.3,2,2,2,North Coast Cetacean Society,FW0014
+FW_2010-08-01_NCCS_SquallyCh_D-1938,fw0003,2010,8,1,1240,1,Right Dorsal,Squally Channel,NO,53.13581667,-129.38355,4,4,4,North Coast Cetacean Society,FW0003
+FW_2010-08-01_NCCS_SquallyCh_D-1939,fw0001,2010,8,1,1240,1,Right Dorsal,Squally Channel,NO,53.13581667,-129.38355,4,4,4,North Coast Cetacean Society,FW0001
+FW_2010-08-01_NCCS_SquallyCh_D-1959,fw0001,2010,8,1,1240,1,Left Dorsal,Squally Channel,NO,53.13581667,-129.38355,4,4,4,North Coast Cetacean Society,FW0001
+FW_2010-08-01_NCCS_SquallyCh_D-1965,fw0011,2010,8,1,1240,1,Left Dorsal,Squally Channel,NO,53.13581667,-129.38355,4,4,4,North Coast Cetacean Society,FW0014
+FW_2010-08-01_NCCS_SquallyCh_D-1980,fw0008,2010,8,1,1240,1,Left Dorsal,Squally Channel,NO,53.13581667,-129.38355,4,4,4,North Coast Cetacean Society,FW0010
+FW_2010-08-01_NCCS_SquallyCh_D-1991,fw0003,2010,8,1,1240,1,Left Dorsal,Squally Channel,NO,53.13581667,-129.38355,4,4,4,North Coast Cetacean Society,FW0003
+FW_2010-08-05_NCCS_SquallyCh_D-2501,NA,2010,8,5,1430,1,Left Dorsal,Squally Channel,NO,53.07863333,-129.3228333,2,2,2,North Coast Cetacean Society,GB
+FW_2010-08-05_NCCS_SquallyCh_D-2505,fw0003,2010,8,5,1430,1,Left Dorsal,Squally Channel,NO,53.07863333,-129.3228333,2,2,2,North Coast Cetacean Society,FW0003
+FW_2010-08-10_NCCS_SquallyCh_D-3223,fw0003,2010,8,10,NA,1,Right Dorsal,Squally Channel,NO,53.13013333,-129.38,3,3,3,North Coast Cetacean Society,FW0003
+FW_2010-08-10_NCCS_SquallyCh_D-3225,fw0001,2010,8,10,NA,1,Right Dorsal,Squally Channel,NO,53.13013333,-129.38,3,3,3,North Coast Cetacean Society,FW0001
+FW_2010-08-10_NCCS_SquallyCh_D-3228,fw0011,2010,8,10,NA,1,Right Dorsal,Squally Channel,NO,53.13013333,-129.38,3,3,3,North Coast Cetacean Society,FW0014
+FW_2010-08-10_NCCS_SquallyCh_D-3256,fw0001,2010,8,10,NA,1,Left Dorsal,Squally Channel,NO,53.13013333,-129.38,3,3,3,North Coast Cetacean Society,FW0001
+FW_2010-08-10_NCCS_SquallyCh_D-3261,fw0011,2010,8,10,NA,1,Left Dorsal,Squally Channel,NO,53.13013333,-129.38,3,3,3,North Coast Cetacean Society,FW0014
+FW_2010-08-10_NCCS_SquallyCh_D-3264,fw0003,2010,8,10,NA,1,Left Dorsal,Squally Channel,NO,53.13013333,-129.38,3,3,3,North Coast Cetacean Society,FW0003
+FW_2010-08-15_NCCS_SquallyCh_D-3730,fw0003,2010,8,15,745,1,Left Dorsal,Squally Channel,NO,53.14985,-129.3901,1,1,1,North Coast Cetacean Society,FW0003
+FW_2010-08-26_encounter78_JFP_5724,fw0011,2010,8,26,NA,1,Left Dorsal,,NO,NA,NA,NA,NA,NA,Pilkington,FW0014
+FW_2010-08-26_encounter78_JFP_5728,fw0003,2010,8,26,NA,1,Left Dorsal,,NO,NA,NA,NA,NA,NA,Pilkington,FW0003
+FW_2010-09-15_NCCS_WhaleCh_D-6464,fw0011,2010,9,15,NA,1,Left Dorsal,Whale Channel,NO,53.14301667,-129.1244333,4,4,4,North Coast Cetacean Society,FW0014
+FW_2010-09-15_NCCS_WhaleCh_D-6482,UIS,2010,9,15,NA,1,Left Dorsal,Whale Channel,NO,53.14301667,-129.1244333,4,4,4,North Coast Cetacean Society,FW0028L
+FW_2010-09-15_NCCS_WhaleCh_D-6493,fw0015,2010,9,15,NA,1,Left Dorsal,Whale Channel,NO,53.14301667,-129.1244333,4,4,4,North Coast Cetacean Society,FW0019L

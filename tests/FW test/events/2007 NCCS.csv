@@ -1,0 +1,5 @@
+file,id,year,month,day,time,group,feature,Location,Nominal.Cordinates,lat,lon,Min.,Max.,Best,photographer,id.dfo
+FW_2007-07-09_NCCS_WhaleCh_D-1676,NA,2007,7,9,1005,1,Left Dorsal,Whale Channel,NO,53.09048333,-129.1028833,2,2,2,North Coast Cetacean Society,GB
+FW_2007-07-09_NCCS_WhaleCh_D-1680,NA,2007,7,9,1005,1,Right Dorsal,Whale Channel,NO,53.09048333,-129.1028833,2,2,2,North Coast Cetacean Society,GB
+FW_2007-07-09_NCCS_WhaleCh_D-CS-F-2A(1),fw0007,2007,7,9,1005,1,Left Dorsal,Whale Channel,NO,53.09048333,-129.1028833,2,2,2,North Coast Cetacean Society,FW0009
+FW_2007-08-27_NCCS_TaylorBight_D-6124,fw0028,2007,8,27,1420,1,Left Dorsal,Taylor Bight,YES,53.09666667,-129.1916667,NA,NA,NA,North Coast Cetacean Society,FW0060

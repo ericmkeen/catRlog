@@ -1,0 +1,25 @@
+file,id,year,month,day,time,group,feature,Location,Nominal.Cordinates,lat,lon,Min.,Max.,Best,photographer,id.dfo
+FW_2009-07-25_NCCS_AshdownIs_D-5226,fw0022,2009,7,25,1815,1,Right Dorsal,N Ashdown Is,NO,53.08476667,-129.2163833,2,2,2,North Coast Cetacean Society,FW0045
+FW_2009-07-25_NCCS_AshdownIs_D-5229,fw0017,2009,7,25,1815,1,Right Dorsal,N Ashdown Is,NO,53.08476667,-129.2163833,2,2,2,North Coast Cetacean Society,FW0026
+FW_2009-07-28_NCCS_CampaniaSnd_D-5569,fw0036,2009,7,28,NA,1,Left Dorsal,Campania Sound,NO,53.03715,-129.21335,3,3,3,North Coast Cetacean Society,FW0078
+FW_2009-07-28_NCCS_CampaniaSnd_D-5574,NA,2009,7,28,NA,1,Left Dorsal,Campania Sound,NO,53.03715,-129.21335,3,3,3,North Coast Cetacean Society,GB
+FW_2009-07-28_NCCS_CampaniaSnd_D-5578,NA,2009,7,28,NA,1,Left Dorsal,Campania Sound,NO,53.03715,-129.21335,3,3,3,North Coast Cetacean Society,GB
+FW_2009-07-28_NCCS_CampaniaSnd_D-5626,fw0008,2009,7,28,1200,2,Right Dorsal,Campania Sound,NO,53.07203333,-129.2501833,2,2,2,North Coast Cetacean Society,FW0010
+FW_2009-07-28_NCCS_CampaniaSnd_D-5633,fw0002,2009,7,28,1200,2,Left Dorsal,Campania Sound,NO,53.07203333,-129.2501833,2,2,2,North Coast Cetacean Society,FW0018L/FW0002
+FW_2009-07-28_NCCS_CampaniaSnd_D-5650,fw0039,2009,7,28,1215,3,Right Dorsal,Campania Sound,NO,53.07203333,-129.2501833,2,2,2,North Coast Cetacean Society,FW0084
+FW_2009-07-28_NCCS_CampaniaSnd_D-5653,fw0038,2009,7,28,1215,3,Right Dorsal,Campania Sound,NO,53.07203333,-129.2501833,2,2,2,North Coast Cetacean Society,FW0082
+FW_2009-07-31_NCCS_CampaniaSnd_D-5892,fw0038,2009,7,31,940,1,Right Dorsal,Campania Sound,NO,53.07246667,-129.2914167,1,1,1,North Coast Cetacean Society,FW0082
+FW_2009-07-31_NCCS_CampaniaSnd_D-5903,NA,2009,7,31,1010,2,Left Dorsal,Campania Sound,NO,53.06643333,-129.2935833,2,2,2,North Coast Cetacean Society,GB
+FW_2009-07-31_NCCS_CampaniaSnd_D-5915,NA,2009,7,31,1010,2,Left Dorsal,Campania Sound,NO,53.06643333,-129.2935833,2,2,2,North Coast Cetacean Society,GB
+FW_2009-08-12_NCCS_CaamanoSnd_D-6362,NA,2009,8,12,1105,1,Left Dorsal,Caamano Sound,NO,52.87475,-129.2168,1,1,1,North Coast Cetacean Society,GB
+FW_2009-08-12_NCCS_CaamanoSnd_D-6387,fw0031,2009,8,12,1140,2,Right Dorsal,Caamano Sound,NO,52.88435,-129.19945,NA,NA,6,North Coast Cetacean Society,FW0085/FW0067
+FW_2009-08-12_NCCS_CaamanoSnd_D-6429,fw0027,2009,8,12,1140,2,Right Dorsal,Caamano Sound,NO,52.88435,-129.19945,NA,NA,6,North Coast Cetacean Society,FW0059
+FW_2009-08-12_NCCS_CaamanoSnd_D-6442,fw0021,2009,8,12,1140,2,Right Dorsal,Caamano Sound,NO,52.88435,-129.19945,NA,NA,6,North Coast Cetacean Society,FW0029
+FW_2009-08-12_NCCS_CaamanoSnd_D-6474,fw0041,2009,8,12,1140,2,Right Dorsal,Caamano Sound,NO,52.88435,-129.19945,NA,NA,6,North Coast Cetacean Society,FW0086
+FW_2009-08-12_NCCS_CaamanoSnd_D-6478,fw0042,2009,8,12,1140,2,Right Dorsal,Caamano Sound,NO,52.88435,-129.19945,NA,NA,6,North Coast Cetacean Society,FW0087
+FW_2009-08-12_NCCS_CaamanoSnd_D-6481,fw0043,2009,8,12,1140,2,Right Dorsal,Caamano Sound,NO,52.88435,-129.19945,NA,NA,6,North Coast Cetacean Society,FW0088
+FW_2009-08-16_NCCS_CaamanoSnd_D-6643,UIS,2009,8,16,1220,1,Left Dorsal,Taylor Bight,NO,53.09528333,-129.1988833,1,1,1,North Coast Cetacean Society,FW0026L
+FW_2009-09-01_NCCS_UlricPt_D-6868,NA,2009,9,1,1240,1,Left Dorsal,Ulric Point,NO,52.78656667,-129.3319667,3,3,3,North Coast Cetacean Society,TBC
+FW_2009-09-01_NCCS_UlricPt_D-6871,NA,2009,9,1,1240,1,Left Dorsal,Ulric Point,NO,52.78656667,-129.3319667,3,3,3,North Coast Cetacean Society,GB
+FW_2009-09-01_NCCS_UlricPt_D-6872,NA,2009,9,1,1240,1,Left Dorsal,Ulric Point,NO,52.78656667,-129.3319667,3,3,3,North Coast Cetacean Society,GB
+FW_2009-09-14_NCCS_WhaleCh_D-7027,NA,2009,9,14,1015,1,Left Dorsal,Whale Channel,NO,53.12908333,-129.1001167,1,1,1,North Coast Cetacean Society,GB

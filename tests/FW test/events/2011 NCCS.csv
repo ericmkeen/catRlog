@@ -1,0 +1,41 @@
+file,id,year,month,day,time,group,feature,Location,Nominal.Cordinates,lat,lon,Min.,Max.,Best,photographer,id.dfo
+FW_2011-06-02_NCCS_TaylorBight_D-9897,fw0028,2011,6,2,1415,1,Left Dorsal,Taylor Bight,YES,53.09666667,-129.1916667,2,2,2,North Coast Cetacean Society,FW0060
+FW_2011-06-02_NCCS_TaylorBight_D-9902,fw0016,2011,6,2,1415,1,Right Dorsal,Taylor Bight,YES,53.09666667,-129.1916667,2,2,2,North Coast Cetacean Society,FW0023
+FW_2011-06-07_NCCS_TaylorBight_D-0074,NA,2011,6,7,830,1,Left Dorsal,Taylor Bight,YES,53.09666667,-129.1916667,1,1,1,North Coast Cetacean Society,GB
+FW_2011-06-08_NCCS_TaylorBight_D-0260,fw0006,2011,6,8,1125,1,Left Dorsal,Taylor Bight,YES,53.09666667,-129.1916667,1,1,1,North Coast Cetacean Society,FW0008L
+FW_2011-06-28_NCCS_TaylorBight_D-5514,NA,2011,6,28,1136,1,Right Dorsal,Taylor Bight,YES,53.09666667,-129.1916667,1,1,1,North Coast Cetacean Society,GB
+FW_2011-07-06_NCCS_SquallyCh_D-5958,fw0045,2011,7,6,NA,1,Right Dorsal,Squally Channel,NO,53.091,-129.369,2,2,2,North Coast Cetacean Society,FW0097
+FW_2011-07-09_NCCS_SquallyCh_D-6174,fw0028,2011,7,9,1214,1,Right Dorsal,Squally Channel,NO,53.05486667,-129.28195,1,1,1,North Coast Cetacean Society,FW0060
+FW_2011-07-09_NCCS_SquallyCh_D-6183,fw0026,2011,7,9,1253,2,Left Dorsal,Squally Channel,NO,53.05631667,-129.3264,2,2,2,North Coast Cetacean Society,FW0054
+FW_2011-07-09_NCCS_SquallyCh_D-6189,fw0034,2011,7,9,1253,2,Left Dorsal,Squally Channel,NO,53.05631667,-129.3264,2,2,2,North Coast Cetacean Society,FW0070
+FW_2011-07-09_NCCS_SquallyCh_D-6197,fw0034,2011,7,9,1253,2,Right Dorsal,Squally Channel,NO,53.05631667,-129.3264,2,2,2,North Coast Cetacean Society,FW0070
+FW_2011-07-09_NCCS_SquallyCh_D-6206,fw0026,2011,7,9,1253,2,Right Dorsal,Squally Channel,NO,53.05631667,-129.3264,2,2,2,North Coast Cetacean Society,FW0054
+FW_2011-07-09_NCCS_SquallyCh_D-6221,fw0044,2011,7,9,1611,3,Right Dorsal,Squally Channel,NO,53.07215,-129.30745,2,2,2,North Coast Cetacean Society,FW0089
+FW_2011-07-09_NCCS_SquallyCh_D-6228,NA,2011,7,9,1611,3,Right Dorsal,Squally Channel,NO,53.07215,-129.30745,2,2,2,North Coast Cetacean Society,GB
+FW_2011-07-12_NCCS_YorkPt_D-6879,fw0004,2011,7,12,820,1,Left Dorsal,York Point,NO,53.08783333,-129.181,2,2,2,North Coast Cetacean Society,FW0003L
+FW_2011-07-12_NCCS_YorkPt_D-6887,NA,2011,7,12,820,1,Left Dorsal,York Point,NO,53.08783333,-129.181,2,2,2,North Coast Cetacean Society,GB
+FW_2011-07-19_Pilkington_xxx_D-0747,fw0044,2011,7,19,NA,1,Right Dorsal,XXX,NO,NA,NA,NA,NA,NA,Pilkington,FW0089
+FW_2011-07-19_Pilkington_xxx_D-0755,fw0001,2011,7,19,NA,1,Right Dorsal,XXX,NO,NA,NA,NA,NA,NA,Pilkington,FW0001
+FW_2011-07-19_Pilkington_xxx_D-0771,fw0007,2011,7,19,NA,1,Right Dorsal,XXX,NO,NA,NA,NA,NA,NA,Pilkington,FW0009
+FW_2011-07-19_Pilkington_xxx_D-0777,fw0026,2011,7,19,NA,1,Right Dorsal,XXX,NO,NA,NA,NA,NA,NA,Pilkington,FW0054
+FW_2011-07-21_NCCS_TaylorBight_D-7319,fw0023,2011,7,21,1525,1,Right Dorsal,Taylor Bight,NO,53.09768333,-129.1300333,1,1,1,North Coast Cetacean Society,FW0046
+FW_2011-07-21_NCCS_TaylorBight_D-7391,fw0029,2011,7,21,1808,2,Left Dorsal,Taylor Bight,NO,53.10253333,-129.1931167,2,2,2,North Coast Cetacean Society,FW0064
+FW_2011-07-21_NCCS_TaylorBight_D-7401,fw0029,2011,7,21,1808,2,Right Dorsal,Taylor Bight,NO,53.10253333,-129.1931167,2,2,2,North Coast Cetacean Society,FW0064
+FW_2011-08-24_NCCS_MacDonaldBay_D-4396,fw0025,2011,8,24,1520,1,Left Dorsal,MacDonald Bay,NO,53.16186667,-129.40115,3,3,3,North Coast Cetacean Society,FW0052
+FW_2011-08-24_NCCS_MacDonaldBay_D-4398,fw0007,2011,8,24,1520,1,Left Dorsal,MacDonald Bay,NO,53.16186667,-129.40115,3,3,3,North Coast Cetacean Society,FW0009
+FW_2011-08-24_NCCS_MacDonaldBay_D-4399,fw0035,2011,8,24,1520,1,Left Dorsal,MacDonald Bay,NO,53.16186667,-129.40115,3,3,3,North Coast Cetacean Society,FW0072
+FW_2011-08-24_NCCS_MacDonaldBay_D-4410,fw0025,2011,8,24,1520,1,Right Dorsal,MacDonald Bay,NO,53.16186667,-129.40115,3,3,3,North Coast Cetacean Society,FW0052
+FW_2011-08-24_NCCS_MacDonaldBay_D-4413,fw0035,2011,8,24,1520,1,Right Dorsal,MacDonald Bay,NO,53.16186667,-129.40115,3,3,3,North Coast Cetacean Society,FW0072
+FW_2011-08-24_NCCS_MacDonaldBay_D-4415,fw0007,2011,8,24,1520,1,Right Dorsal,MacDonald Bay,NO,53.16186667,-129.40115,3,3,3,North Coast Cetacean Society,FW0009
+FW_2011-08-30_NCCS_MollyPt_D-7055,fw0029,2011,8,30,1611,1,Right Dorsal,Molly Point,NO,53.11161667,-129.1312,2,2,2,North Coast Cetacean Society,FW0064
+FW_2011-08-30_NCCS_MollyPt_D-7056,fw0023,2011,8,30,1611,1,Right Dorsal,Molly Point,NO,53.11161667,-129.1312,2,2,2,North Coast Cetacean Society,FW0046
+FW_2011-09-02_NCCS_FinRk_D-0494,fw0005,2011,9,2,1210,1,Left Dorsal,Fin Rock,NO,53.2599,-129.4410333,1,1,1,North Coast Cetacean Society,FW0006
+FW_2011-09-10_NCCS_OtterCh_D-9560,fw0005,2011,9,10,1610,1,Left Dorsal,Otter Channel,NO,53.11805,-129.3943833,2,2,2,North Coast Cetacean Society,FW0006
+FW_2011-09-10_NCCS_OtterCh_D-9595,fw0005,2011,9,10,1610,1,Right Dorsal,Otter Channel,NO,53.11805,-129.3943833,2,2,2,North Coast Cetacean Society,FW0006
+FW_2011-09-10_NCCS_OtterCh_D-9603,fw0037,2011,9,10,1610,1,Right Dorsal,Otter Channel,NO,53.11805,-129.3943833,2,2,2,North Coast Cetacean Society,FW0079
+FW_2011-09-10_NCCS_OtterCh_D-9613,fw0023,2011,9,10,1610,1,Right Dorsal,Otter Channel,NO,53.11805,-129.3943833,2,2,2,North Coast Cetacean Society,FW0046
+FW_2011-09-12_NCCS_SquallyCh_D-0031,fw0001,2011,9,12,1225,1,Right Dorsal,Squally Channel,NO,53.21698333,-129.4472167,1,1,1,North Coast Cetacean Society,FW0001
+FW_2011-09-13_NCCS_TaylorBight_D-0369,fw0037,2011,9,13,1312,1,Right Dorsal,Taylor Bight,NO,53.06941667,-129.24395,2,2,2,North Coast Cetacean Society,FW0079
+FW_2011-09-14_NCCS_TaylorBight_D-2721,fw0023,2011,9,14,1400,1,Right Dorsal,Taylor Bight,NO,53.09975,-129.1832667,3,3,3,North Coast Cetacean Society,FW0046
+FW_2011-09-14_NCCS_TaylorBight_D-2727,fw0037,2011,9,14,1400,1,Right Dorsal,Taylor Bight,NO,53.09975,-129.1832667,3,3,3,North Coast Cetacean Society,FW0079
+FW_2011-09-14_NCCS_TaylorBight_D-2730,fw0036,2011,9,14,1400,1,Right Dorsal,Taylor Bight,NO,53.09975,-129.1832667,3,3,3,North Coast Cetacean Society,FW0078

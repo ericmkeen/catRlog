@@ -1,6 +1,9 @@
 #' Open and explore your photo-ID catalog
 #'
 #' @return desc
+#' @import shiny
+#' @import DT
+#' @import shinyjs
 #' @export
 #'
 catalog <- function(){
@@ -14,13 +17,13 @@ catalog <- function(){
     # Setup reactive values
 
     rv <- reactiveValues()
-    rv$refdir <- "../4 catalog/catalog/"
+    rv$refdir <- "catalog/catalog/"
     rv$reflfull <- NULL
     rv$dfilter <- data.frame()
     rv$reflf <- NULL
     rv$refi <- 1
     rv$maybes <- c()
-    rv$key <- read.csv("../4 catalog/catalog key.csv",stringsAsFactors=FALSE)
+    rv$key <- read.csv("catalog/catalog key.csv",stringsAsFactors=FALSE)
 
     #########################################################
     # Stage reference catalog
@@ -46,7 +49,8 @@ catalog <- function(){
 
         # LDs
         splits <- strsplit(lfi,"")[[1]] ; splits
-        dotchar <- which(splits==".")[3] ; dotchar
+        (dotchar <- which(splits=="."))
+        (dotchar <- dotchar[length(dotchar)])
         dfilter$id[i] <- substr(lfi,1,(dotchar-2))
         dorsal <- substr(lfi,(dotchar-1),(dotchar-1)) ; dorsal
         if(dorsal=="L"){dfilter$ld[i] <- 1}
@@ -86,9 +90,11 @@ catalog <- function(){
       id <- gsub(ext,"",id)
       id <- substr(id,1,(nchar(id)-1))
       #print(id)
-      workdir <- "../1 events/" ; workdir
+      workdir <- "events/" ; workdir
       lf <- list.files(workdir) ; lf
       lf <- lf[lf!="backups"]
+      mr <- data.frame()
+      if(length(lf)>0){
       lf <- paste0(workdir,lf) ; lf
       i=5
       mr <- data.frame(stringsAsFactors=FALSE)
@@ -102,6 +108,7 @@ catalog <- function(){
         }
       }
       print(mr)
+      }
       rv$sithist <- mr
     })
 
