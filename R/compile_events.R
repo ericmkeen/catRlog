@@ -3,8 +3,13 @@
 #' @return desc
 #' @export
 #'
-compile.events <- function(){
-  evdir <- "../1 events/"
+compile_events <- function(events_path = 'events/'){
+
+  if(FALSE){
+    events_path = 'events/'
+  }
+
+  evdir <- events_path
   lf <- list.files(evdir)
   lf <- lf[-grep("backup",lf)] ; lf
   #sits <- data.frame(groupid=NA,id=NA,year=NA,month=NA,day=NA,doy=NA,yfrac=NA,
@@ -55,7 +60,7 @@ compile.events <- function(){
 
       dt <- paste0(sits$year,"-",sits$month,"-",sits$day," 01:00:00") ; dt
       sits$groupid <- paste0(sits$year,sits$month,sits$day,sits$group) ; sits$groupid
-      dt <- time.turner(dt)
+      dt <- time_turner(dt)
       dt
       sits$doy <- as.numeric(dt$j)
       sits$yfrac <- as.numeric(sits$year) + (sits$doy/365) ; sits$yfrac

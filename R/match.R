@@ -1,10 +1,66 @@
-#' Match new photos to your catalog
+#' Match new photo collections to your reference catalog
 #'
-#' @return desc
+#' @param collections_to_match Path to folder containing subfolders of photo collections that you wish to match against your reference catalog. The default follows the instructions for the `catRlog` system setup.
+#' @param catalog_photos Path to folder with catalog ID photos. The default follows the instructions for the `catRlog` system setup.
+#' @param catalog_key Path to catalog key `.csv`. The default follows the instructions for the `catRlog` system setup.
+#' @param filters Character vector of column names within the catalog key that can be used to filter the catalog. Up to three can be used.
+#' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
 #' @export
+#' @import shiny
+#' @import DT
+#' @import shinyjs
+#' @import dplyr
+#' @import tidyselect
 #'
-match <- function(){
+match <- function(collections_to_match = 'photos/photos/',
+                  catalog_photos = 'catalog/catalog/',
+                  catalog_key = 'catalog/catalog key.csv',
+                  filters = c('injury', 'nick', 'hole')){
 
+  if(FALSE){
+    collections_to_match = 'photos/photos/'
+    catalog_photos = 'catalog/catalog/'
+    catalog_key = 'catalog/catalog key.csv'
+    filters = c('injury', 'nick', 'hole')
+    rv <- list()
+  }
+  #########################################################
+  #########################################################
+
+  #########################################################
+  # Setup photo key
+
+  rvkey <- read.csv(catalog_key,stringsAsFactors=FALSE)
+  (lf <- list.files(catalog_photos))
+  (lf <- paste0(catalog_photos,lf))
+
+  # Feature options
+  (splits <- lapply(strsplit(lf, '\\.'), '[[', 1) %>% unlist)
+  (features <- sapply(splits, function(x){substr(x, nchar(x), nchar(x))}))
+  (ids <- gsub(catalog_photos, '', sapply(splits, function(x){substr(x, 1, (nchar(x)-1))})))
+
+  # Build photo key
+  (photo_key <- data.frame(file=lf, id=ids, feature=features))
+  (key2join <-
+      rvkey %>%
+      dplyr::select(id, local, tidyselect::any_of(filters)))
+  (photo_key <- dplyr::left_join(photo_key, key2join))
+  #print(head(photo_key))
+
+  # Setup filter options
+  ops_feature <- sort(unique(photo_key$feature))
+  ops_filter1 <- ops_filter2 <- ops_filter3 <- NA
+  if(length(filters)>=1){
+    ops_filter1 <- sort(unique(photo_key[ ,which(names(photo_key)==filters[1])]))
+  }
+  if(length(filters)>=2){
+    ops_filter2 <- sort(unique(photo_key[ ,which(names(photo_key)==filters[2])]))
+  }
+  if(length(filters)>=3){
+    ops_filter3 <- sort(unique(photo_key[ ,which(names(photo_key)==filters[3])]))
+  }
+
+  #########################################################
   #########################################################
   #########################################################
 
@@ -13,12 +69,10 @@ match <- function(){
     #########################################################
     # Setup reactive values
     rv <- reactiveValues()
-    rv$key <- read.csv("../4 catalog/catalog key.csv",stringsAsFactors=FALSE)
-    rv$refdir <- "../4 catalog/catalog/"
-    rv$reflfull <- NULL
-    rv$dfilter <- data.frame()
-    rv$reflf <- NULL
+    rv$key <- rvkey
     rv$refi <- 1
+    rv$dfilter <- photo_key
+    rv$filter_feature <- rv$filter1 <- rv$filter2 <- rv$filter3 <- 1:nrow(photo_key)
     rv$worklfull <- NULL
     rv$worklf <- NULL
     rv$worki <- 1
@@ -29,66 +83,110 @@ match <- function(){
     rv$local <- ""
 
     #########################################################
-    # Stage reference catalog
+    # Filter UIs
 
-    observe({rv$refdir
-      lf <- list.files(rv$refdir)
-      lf <- paste0(rv$refdir,lf)
-      rv$reflfull <- lf
-      rv$reflf <- lf
+    output$filter_feature <- renderUI({
+      if(!is.null(photo_key$feature)){
+        #print('updating filter feature options...')
+        column(3, selectInput('filter_feature',
+                              label='Features:',
+                              choices = ops_feature,
+                              selected = ops_feature,
+                              multiple = TRUE,
+                              width = '100%'))}})
 
-      # Key columns
-      key <- rv$key  ; head(key)
-      locals <- as.character(key$local)
+    output$filter1 <- renderUI({
+      if(length(filters)>=1){
+        #print('updating filter 1 options...')
+        column(2, selectInput('filter1',
+                              label=filters[1],
+                              choices = ops_filter1,
+                              selected = ops_filter1,
+                              multiple = TRUE,
+                              width = '100%'))}})
 
-      # Setup filter parameters
-      dfilter <- data.frame(lf=lf,id=NA,local=NA,fl=0,ld=0,rd=0,nicks=0,holes=0,injury=0) ; dfilter
+    output$filter2 <- renderUI({
+      if(length(filters)>=2){
+        #print('updating filter 2 options...')
+        column(2, selectInput('filter2',
+                              label=filters[2],
+                              choices = ops_filter2,
+                              selected = ops_filter2,
+                              multiple = TRUE,
+                              width = '100%'))}})
 
-      ls <- c() ; i=1
-      for(i in 1:nrow(dfilter)){
-        lfi <- as.character(dfilter$lf[i]) ; lfi
+    output$filter3 <- renderUI({
+      if(length(filters)>=3){
+        #print('updating filter 3 options...')
+        column(2, selectInput('filter3',
+                              label=filters[3],
+                              choices = ops_filter3,
+                              selected = ops_filter3,
+                              multiple = TRUE,
+                              width = '100%'))}})
 
-        # LDs
-        splits <- strsplit(lfi,"")[[1]] ; splits
-        dotchar <- which(splits==".")[3] ; dotchar
-        dfilter$id[i] <- substr(lfi,1,(dotchar-2))
-        dorsal <- substr(lfi,(dotchar-1),(dotchar-1)) ; dorsal
-        if(dorsal=="L"){dfilter$ld[i] <- 1}
-        if(dorsal=="R"){dfilter$rd[i] <- 1}
-        if(dorsal=="F"){dfilter$fl[i] <- 1}
+    #########################################################
+    # Filter reference catalog
 
-        # Key attributes
-        keymatch <- which(as.character(key$id)==gsub(rv$refdir,"",dfilter$id[i])) ; keymatch
-        if(length(keymatch)>0){
-          dfilter$nicks[i] <- as.character(key$nick[keymatch])
-          dfilter$holes[i] <- as.character(key$hole[keymatch])
-          dfilter$injury[i] <- as.character(key$injury[keymatch])
-          dfilter$local[i] <- as.character(locals[keymatch])
-        }
-      }
-      print(dfilter)
-      dfilter$clean <- as.numeric(as.character(dfilter$injury)) +
-        as.numeric(as.character(dfilter$nicks)) +
-        as.numeric(as.character(dfilter$holes))
-      rv$dfilter <- dfilter
-    })
+    # Record updates to any filter settings
+    observe({ if(!is.null(input$filter_feature)){
+      rv$filter_feature <- which(photo_key$feature %in% input$filter_feature)
+    }else{
+      rv$filter_feature <- 1:nrow(photo_key)
+    }})
+    observe({ if(!is.null(input$filter1)){
+      rv$filter1 <- which(photo_key[,which(names(photo_key)==filters[1])] %in% input$filter1)
+    }else{
+      rv$filter1 <- 1:nrow(photo_key)
+    }})
+    observe({ if(!is.null(input$filter2)){
+      rv$filter2 <- which(photo_key[,which(names(photo_key)==filters[2])] %in% input$filter2)
+    }else{
+      rv$filter2 <- 1:nrow(photo_key)
+    }})
+    observe({ if(!is.null(input$filter3)){
+      rv$filter3 <- which(photo_key[,which(names(photo_key)==filters[3])] %in% input$filter3)
+    }else{
+      rv$filter3 <- 1:nrow(photo_key)
+    }})
 
-    # Get ID and Local name for currently selected Reference ID
     observe({
-      id <- gsub(rv$refdir,"",rv$reflf[rv$refi])
-      key <- rv$key
-      print(id)
-      fext <- paste0(".",tools::file_ext(id))
-      id <- gsub(fext,"",id)
-      id <- substr(id,1,(nchar(id)-1))
-      matchi <- which(key$id==id)
-      #print(matchi)
-      if(length(matchi)>0){
-        rv$local <- as.character(key$local[matchi])
-      }else{
-        rv$local <- ""
+      list(input$search,
+           input$searchname,
+           rv$filter_feature,
+           rv$filter1,
+           rv$filter2,
+           rv$filter3)
+
+      dfilter <- photo_key
+
+      search_adds <- 1:nrow(photo_key)
+      if(nchar(input$search)>1){
+        search_adds <- grep(tolower(input$search),tolower(as.character(dfilter$id)))
       }
-      #print(rv$local)
+
+      searchname_adds <- 1:nrow(photo_key)
+      if(nchar(input$searchname)>1){
+        print('filtering photo_key by search name')
+        searchname_adds <- grep(tolower(input$searchname),tolower(as.character(dfilter$local)))
+      }
+
+      #print('combining all filter returns...')
+      all_adds <- 1:nrow(photo_key)
+      adds <- all_adds[which(all_adds %in% rv$filter_feature &
+                               all_adds %in% rv$filter1 &
+                               all_adds %in% rv$filter2 &
+                               all_adds %in% rv$filter3 &
+                               all_adds %in% search_adds &
+                               all_adds %in% searchname_adds)]
+
+      adds <- sort(unique(adds))
+      #print(adds)
+      dfilter <- dfilter[adds,]
+      #print(nrow(dfilter))
+
+      rv$dfilter <- dfilter
+      rv$refi <- 1
     })
 
     #########################################################
@@ -98,7 +196,7 @@ match <- function(){
     observe({
       if(!is.null(input$session)){
         if(input$session == "Start new session"){
-          matchdir <- "../3 matches/match sessions/"
+          matchdir <- "matches/match sessions/"
           if(input$note != ""){
             newfile <- paste0(matchdir,input$analyst," ",gsub(" ","",input$note)," ",gsub(":","",gsub("-","",as.character(Sys.time()))),".csv")
           }else{
@@ -108,7 +206,7 @@ match <- function(){
         }else{
           rv$matchfile <- input$session
         }
-        print(rv$matchfile)
+        #print(rv$matchfile)
         if(file.exists(rv$matchfile)){rv$matchdata <- read.csv(rv$matchfile,header=FALSE)}
       }})
 
@@ -116,7 +214,7 @@ match <- function(){
     observe({input$workdir
       if(!is.null(input$workdir)){
         lf <- list.files(input$workdir)
-        lf <- paste0(input$workdir,lf)
+        lf <- paste0(input$workdir,'/',lf)
         rv$worklfull <- lf
         rv$worklf <- lf
       }
@@ -126,16 +224,15 @@ match <- function(){
     # Image display
 
     # Reference picture
-    output$refid <- renderText({paste0(gsub(rv$refdir,"",rv$reflf[rv$refi]),"  |  ",rv$local)})
-    output$refstatus <- renderText({paste0("Image ",rv$refi," out of ",length(rv$reflf)) })
-    output$refpic <- renderImage({filename <- rv$reflf[rv$refi]
-    list(src = filename,width="80%")}, deleteFile = FALSE)
+    output$refid <- renderText(rv$dfilter$id[rv$refi])
+    output$reflocal <- renderText(rv$dfilter$local[rv$refi])
+    output$refstatus <- renderText({paste0("Image ",rv$refi," out of ",nrow(rv$dfilter),' in catalog') })
+    output$refpic <- renderImage({list(src = rv$dfilter$file[rv$refi],width="95%")}, deleteFile = FALSE)
 
     # Photo to match
     output$workid <- renderText({ if(!is.null(input$workdir)){gsub(input$workdir,"",rv$worklf[rv$worki])} })
     output$workstatus <- renderText({ if(!is.null(input$workdir)){paste0("Image ",rv$worki," out of ",length(rv$worklf))} })
-    output$workpic <- renderImage({filename <- rv$worklf[rv$worki]
-    list(src = filename,width="90%")}, deleteFile = FALSE)
+    output$workpic <- renderImage({list(src = rv$worklf[rv$worki],width="95%")}, deleteFile = FALSE)
 
     #########################################################
     # Data table for review
@@ -148,7 +245,7 @@ match <- function(){
     # List of current match sessions to choose from
     output$session <- renderUI({
       if(input$analyst != ""){
-        matchdir <- "../3 matches/match sessions/"
+        matchdir <- "matches/match sessions/"
         lf <- list.files(matchdir) ; lf
         lf <- paste0(matchdir,lf)
         sessops <- c("Start new session",lf)
@@ -158,12 +255,12 @@ match <- function(){
 
     # List of photo collections to choose from
     output$workdir <- renderUI({
-      workdir <- "../0 photos/photos/" ; workdir
-      dirops <- list.files(workdir)
-      dirops <- paste0(workdir,dirops,"/")
+      workdir <- collections_to_match ; workdir
+      (dirops <- list.files(workdir))
+      dirops <- paste0(workdir,dirops)
       if(length(dirops)>0){
         selectInput("workdir",label=h4("Select photo collection to work on:"),choices=dirops,selected=1)
-      }else{ "No photo collections found! Look in catRlog > 0 photos > photos" }
+      }else{ "No photo collections found! Check the path you supplied in the input collections_to_match" }
     })
 
     # Setup button to step forward in photo collection
@@ -229,49 +326,6 @@ match <- function(){
     })
 
     #########################################################
-    # Filter reference catalog
-
-    observe({
-      (input$search=="trigger") + (input$searchname=="trigger") + input$maybefilter + input$FL + input$LD + input$RD + input$nicks + input$holes + input$injury
-      lf <- rv$reflfull
-      dfilter <- rv$dfilter
-
-      if(nchar(input$search)>1){
-        adds <- grep(tolower(input$search),tolower(as.character(dfilter$id)))
-        dfilter <- dfilter[adds,]
-      }
-
-      if(nchar(input$searchname)>1){
-        adds <- grep(tolower(input$searchname),tolower(as.character(dfilter$local)))
-        dfilter <- dfilter[adds,]
-      }
-
-      if(!is.null(input$maybefilter) && input$maybefilter && length(rv$maybes)>0){
-        adds <- which(dfilter$lf %in% rv$maybes)
-        newlf <- as.character(dfilter$lf[adds])
-
-      }else{
-        adds <- c()
-        if(input$LD){adds <- c(adds,which(dfilter$ld==1)) ; print(adds)} ; adds
-        if(input$RD){adds <- c(adds,which(dfilter$rd==1))} ; adds
-        if(input$FL){adds <- c(adds,which(dfilter$fl==1))} ; adds
-        adds <- sort(unique(adds))
-        dfilter <- dfilter[adds,]
-
-        nicks <- holes <- injury <- clean <- c()
-        if(input$nicks){nicks <- which(dfilter$nicks==1)} #; nicks
-        if(input$holes){holes <- which(dfilter$holes==1)} #; holes
-        if(input$injury){injury <- which(dfilter$injury==1)} #; injury
-        if(input$clean){clean <- which(dfilter$clean==0)} #; clean
-        adds <- sort(unique(c(nicks,holes,injury,clean)))
-        newlf <- as.character(dfilter$lf[adds])
-      }
-
-      rv$reflf <- newlf
-      rv$refi <- 1
-    })
-
-    #########################################################
     # What to do when buttons are pressed
 
     # Step forward in photo collection
@@ -296,74 +350,74 @@ match <- function(){
     # Step forward in reference collection
     observeEvent(input$refnext, {
       newi <- rv$refi + 1
-      if(newi > length(rv$reflf)){newi <- 1}
+      if(newi > nrow(rv$dfilter)){newi <- 1}
       rv$refi <- newi
     })
 
     # Step backward in reference collection
     observeEvent(input$refback, {
       newi <- rv$refi - 1
-      if(newi < 1){newi <- length(rv$reflf)}
+      if(newi < 1){newi <- nrow(rv$dfilter)}
       rv$refi <- newi
     })
 
     # Cant match
     observeEvent(input$matchcant, {
       new.line <- paste0(as.character(Sys.time()),",",input$analyst,",",
-                         gsub("../0 photos/photos","",input$workdir),",",
+                         gsub(collections_to_match,"",input$workdir),",",
                          "CANT,",
                          gsub(input$workdir,"",rv$worklf[rv$worki]),",",
                          NA,",",rv$worklf[rv$worki],",",NA,"\n") ; new.line
       cat(new.line,file=rv$matchfile,append=TRUE)
       if(file.exists(rv$matchfile)){rv$matchdata <- read.csv(rv$matchfile,header=FALSE)}
       rv$maybes <- c()
-      newi <- rv$refi + 1 ; if(newi > length(rv$reflf)){newi <- 1} ; rv$refi <- newi
+      newi <- rv$refi + 1 ; if(newi > nrow(rv$dfilter)){newi <- 1} ; rv$refi <- newi
     })
 
     # New arrival
     observeEvent(input$matchnew, {
       new.line <- paste0(as.character(Sys.time()),",",input$analyst,",",
-                         gsub("../0 photos/photos","",input$workdir),",",
+                         gsub(collections_to_match,"",input$workdir),",",
                          "NEW,",
                          gsub(input$workdir,"",rv$worklf[rv$worki]),",",
                          NA,",",rv$worklf[rv$worki],",",NA,"\n") ; new.line
       cat(new.line,file=rv$matchfile,append=TRUE)
       if(file.exists(rv$matchfile)){rv$matchdata <- read.csv(rv$matchfile,header=FALSE)}
       rv$maybes <- c()
-      newi <- rv$refi + 1 ; if(newi > length(rv$reflf)){newi <- 1} ; rv$refi <- newi
+      newi <- rv$refi + 1 ; if(newi > nrow(rv$dfilter)){newi <- 1} ; rv$refi <- newi
     })
 
     # Guess match
     observeEvent(input$matchguess, {
       new.line <- paste0(as.character(Sys.time()),",",input$analyst,",",
-                         gsub("../0 photos/photos","",input$workdir),",",
+                         gsub(collections_to_match,"",input$workdir),",",
                          "GUESS,",
                          gsub(input$workdir,"",rv$worklf[rv$worki]),",",
-                         gsub(rv$refdir,"",rv$reflf[rv$refi]),",",
-                         rv$worklf[rv$worki],",",rv$reflf[rv$refi],"\n") ; new.line
+                         rv$dfilter$id[rv$refi],",",
+                         rv$worklf[rv$worki],",",rv$dfilter$file[rv$refi],"\n") ; new.line
       cat(new.line,file=rv$matchfile,append=TRUE)
       if(file.exists(rv$matchfile)){rv$matchdata <- read.csv(rv$matchfile,header=FALSE)}
       rv$maybes <- c()
-      newi <- rv$refi + 1 ; if(newi > length(rv$reflf)){newi <- 1} ; rv$refi <- newi
+      newi <- rv$refi + 1 ; if(newi > nrow(rv$dfilter)){newi <- 1} ; rv$refi <- newi
     })
 
     # 100% match
     observeEvent(input$matchyes, {
       new.line <- paste0(as.character(Sys.time()),",",input$analyst,",",
-                         gsub("../0 photos/photos","",input$workdir),",",
+                         gsub(collections_to_match,"",input$workdir),",",
                          "MATCH,",
                          gsub(input$workdir,"",rv$worklf[rv$worki]),",",
-                         gsub(rv$refdir,"",rv$reflf[rv$refi]),",",
-                         rv$worklf[rv$worki],",",rv$reflf[rv$refi],"\n") ; new.line
+                         rv$dfilter$id[rv$refi],",",
+                         rv$worklf[rv$worki],",",rv$dfilter$file[rv$refi],"\n") ; new.line
       cat(new.line,file=rv$matchfile,append=TRUE)
       if(file.exists(rv$matchfile)){rv$matchdata <- read.csv(rv$matchfile,header=FALSE)}
       rv$maybes <- c()
-      newi <- rv$refi + 1 ; if(newi > length(rv$reflf)){newi <- 1} ; rv$refi <- newi
+      newi <- rv$refi + 1 ; if(newi > nrow(rv$dfilter)){newi <- 1} ; rv$refi <- newi
     })
 
     # Add a reference ID to the list of maybes
     observeEvent(input$maybe,{
-      rv$maybes <- c(rv$maybes,rv$reflf[rv$refi]) #; print(rv$maybes)
+      rv$maybes <- c(rv$maybes,rv$dfilter$file[rv$refi]) #; print(rv$maybes)
     })
 
   }
@@ -395,23 +449,22 @@ match <- function(){
                                                     uiOutput("workback",inline=TRUE),
                                                     uiOutput("worknext",inline=TRUE),
                                                     textOutput("workstatus",inline=FALSE),
-                                                    br(),br(),
+                                                    br(),
                                                     uiOutput("matchcant"),br(),
                                                     uiOutput("matchnew"))),
-                                    fluidRow(column(2,checkboxInput("LD","Left dorsals",value=TRUE)),
-                                             column(2,checkboxInput("RD","Right dorsals",value=TRUE)),
-                                             column(2,checkboxInput("FL","Flukes",value=TRUE)),
-                                             column(1,checkboxInput("clean","Clean",value=TRUE)),
-                                             column(1,checkboxInput("nicks","Nicks",value=TRUE)),
-                                             column(1,checkboxInput("holes","Holes",value=TRUE)),
-                                             column(3,checkboxInput("injury","Injury",value=TRUE))),
+                                    fluidRow(uiOutput('filter_feature'),
+                                             uiOutput('filter1'),
+                                             uiOutput('filter2'),
+                                             uiOutput('filter3'),
+                                             column(3, h3("Reference Catalog"))
+                                    ),
                                     fluidRow(column(9,imageOutput("refpic")),
-                                             column(3,h3("Reference Catalog"),
+                                             column(3,
                                                     textOutput("refid"),
                                                     br(),br(),
                                                     uiOutput("refback",inline=TRUE),
                                                     uiOutput("refnext",inline=TRUE),
-                                                    textOutput("refstatus",inline=TRUE),
+                                                    textOutput("refstatus"),
                                                     br(),br(),
                                                     uiOutput("matchyes"),br(),br(),
                                                     actionButton("maybe","(Add to Maybes)"),

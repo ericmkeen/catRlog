@@ -22,7 +22,7 @@ Photo-identification (photo-ID) databases can comprise versatile troves of infor
 **`catRlog`** serves as a workflow organizer that simplifies, streamlines, and improves the quality of photo-ID data processing. The system can be utilized by research teams in a number of ways, ranging from automated formatting and printing of a photo-ID catalog, to photo-ID matching, thereby creating and expanding a reference (historical) catalog, to processing of identification data to generate datasets necessary for site fidelity, mark–recapture, and social association analyses. As an `R`-based tool, the apps are open-source, cross-platform, readily customizable, and easily updated.  
 
 
-**`catRlog`** has been tested using photo-ID databases of humpback whales (*Megaptera novaeangliae*) and fin whales (*Balaenoptera physalus*) within a mainland fjord system of Pacific Canada, but is a generalized system useful for almost any photo-ID project of any species in any habitat. A detailed user guide and example dataset are provided through links in the [Github Repo](https://github.com/ericmkeen/catRlog).  
+**`catRlog`** has been tested using photo-ID databases of humpback whales (*Megaptera novaeangliae*) and fin whales (*Balaenoptera physalus*) within a mainland fjord system of Pacific Canada, but we intend it as a generalizable system useful for most photo-ID projects of most species in most habitats. (Link to the [Github Repo](https://github.com/ericmkeen/catRlog).  
 
 Note that `catRlog` was originally produced as a downloadable folder system -- essentially a simplistic version of an `R` package -- in association with [this publication](https://link.springer.com/article/10.1007%2Fs42991-021-00158-7) in a special issue in the *Journal of Mammalogy* (also viewable [here](https://rdcu.be/csdPC)). We have since converted `catRlog` to a proper R package in order to make it easier to use, maintain, and improve upon. The documentation in this vignette, and also within the help documentation for the `R` functions, provide the most up-to-date support. The `catRlog` system was developed by [Eric Keen](https://new.sewanee.edu/our-faculty-staff/eric-ezell/), [Éadin O'Mahony](https://eadinomahony.wordpress.com/), Julia Wren and [Janie Wray](https://bcwhales.org/our-team/). 
 
@@ -74,7 +74,7 @@ setup_project()
 
 #### Setup your reference catalog
 
-Most users will be converting a pre-existing catalog to the `catRlog` system. You have at least one identified individual that serves as the start of your photo-ID program. 
+Most users will be converting a pre-existing catalog to the `catRlog` system. You have at least one identified individual that serves as the start of your photo-ID reference catalog. 
 
 In the `catRlog` system, your reference (historical) catalog has two components: a folder of ID photos and a spreadsheet key. 
 
@@ -88,17 +88,18 @@ Your reference catalog goes in the folder `catalog/catalog`. Each photo needs to
 
 ##### Spreadsheet key
 
-Your spreadsheet key goes within the `catalog` folder (not `catalog/catalog` subfolder) and should be named simply `"catalog key.csv"`.  It must be a `".csv"`.  
+Your spreadsheet key goes within the `catalog` folder (not the `catalog/catalog` subfolder) and should be named simply `"catalog key.csv"`.  It must be a `".csv"`.  
 
 Every row in in this spreadsheet is for a single individual in your catalog. 
 
-Only one column is absolutely required: **`id`**: the ID code. It must correspond to a photo in your `catalog/catalog` folder.  You can as many other columns as you wish. If you have local nicknames for individuals, create a column named `"local`". We recommend adding columns that allow you to track demographic information (sex or known mother), as well as features that allow you to filter the catalog (e.g., injury status, dorsal fin knicks, distinctiveness scores, etc.). All columns must be single words (no spaces or special characters).  
+Only one column is absolutely required: **`id`**: the ID code. It must correspond to a photo in your `catalog/catalog` folder.  You can add as many other columns as you wish. If you have local nicknames for individuals, create a column named `"local`". We recommend adding columns that allow you to track demographic information (sex or known mother), as well as features that allow you to filter the catalog (e.g., injury status, dorsal fin knicks, distinctiveness scores, etc.). All columns must be single words (no spaces or special characters).  
 
 Here is an example:  
 
-&nbsp;  
-![](img/key_eg.png){width=70%}
+![](img/key_eg.png){width=50%} 
+
 &nbsp;
+
 
 **With these data in place, you should now be able** to open an interactive dashboard that allows you to peruse and filter your reference catalog:  
 
@@ -108,19 +109,25 @@ catalog()
 
 
 &nbsp;  
-![](img/catalog_eg.png){width=70%}
-&nbsp;
+![](img/catalog_eg.png){width=90%}. 
+
+&nbsp;  
+
 
 
 ##### Custom filtering options
 
-*Under construction!* 
+The `catalog()` function accepts an input, `"filters"`, that allows you to add filter options to the Shiny app that is launched. You can provide up to three different column names from your `catalog key.csv` to use as filters. Supply them as a character vector, like this: 
+
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+catalog(filters = c('injury', 'nick', 'hole'))
+```
 
 &nbsp;  
 
 #### Bring in sightings
 
-All records of photo-identifications should be placed as spreadsheets within the `events` folder. A convenient way to name these spreadsheets would be `"<year> <platform or photographer>.csv"`, but the spreadsheets can be named whatever you want.  
+All records of photo-identifications should be provided as spreadsheets within the `events` folder. A convenient way to name these spreadsheets would be `"<year> <platform or photographer>.csv"`, but the spreadsheets can be named whatever you want.  
 
 Note, however, that if there are photos associated with these events, the spreadsheet name must be exactly the same as the corresponding photo collection within the `photos` folder. For example, if I have an events spreadsheet named `"events/2016 Bangarang.csv"`, the photos associated with those events must be in a subfolder named `"photos/2016 Bangarang"`.  
 
@@ -139,7 +146,7 @@ The required columns are:
 
 Semi-required columns are:  
 
-- **`file`**: the image filename in the corresponding photos collection. Filetype extension is not required.  you need this column if you want to take advantage of matching and scoring features of the `catRlog` system, but it is not needed if you just wish to use the analytical functions in order to summarize your sighting histories. If the latter, the `id` column must be present.   
+- **`file`**: the image filename in the corresponding photos collection. Filetype extension is not required.  You need this column if you want to take advantage of matching and scoring features of the `catRlog` system, but it is not needed if you just wish to use the analytical functions in order to summarize your sighting histories. If the latter, the `id` column must be present.   
 
 - **`id`**: the identification code for the individual. If the `file` is supplied, you can use the `catRlog` scoring and matching features to automatically fill in this `id` column. If `file` is not supplied, you will need to manually provide the `id` in order to use `catRlog`'s analytical features.  
 
@@ -154,9 +161,10 @@ Optional columns recognized by the `catRlog` system include...
 
 Here's an example:  
 
+![](img/events.png){width=90%}. 
+
 &nbsp;  
-![](img/events.png){width=70%}
-&nbsp;
+
 
 #### Bring in photo collections 
 
@@ -204,29 +212,34 @@ score_photos()
 
 When you open the app, the first tab to appear ...
 
+&nbsp;   
+
+![](img/scoring_pg1.png){width=90%}. 
+
 &nbsp;  
-![](img/scoring_pg1.png){width=70%}
-&nbsp;
+
 
 ... asks that you enter analyst initials. Doing so unlocks a botton to select a ‘scoring session’ file where your work will be saved. You can ‘Start a new session’ by providing a ‘Session Description’ (tip: I usually use the name of the photo collection).
 
 Select the photo collection you wish to score, then go to the ‘GO SCORE’ tab, where you will scrutinize each photo in the collected one at a time. 
 
+&nbsp;   
+
+![](img/scoring_pg2.png){width=90%}. 
+
 &nbsp;  
-![](img/scoring_pg2.png){width=70%}
-&nbsp;
+
 
 Select quality scores for each field. Once all fields have been changed from NA, the option to click “Save & Next” will appear. This will save your scores to the scoring session's `.csv` file. Here is an example of what the scoring `.csv` output looks like: 
 
+&nbsp;   
+
+![](img/scoring_output.png){width=85%}. 
+
 &nbsp;  
-![](img/scoring_output.png){width=70%}
-&nbsp;
+
 
 Note that, while it is logical to score photos at this stage in the workflow, it does not technically *need* to happen until you want to compile datasets to perform analyses (the final stage), at which point you are compiling datasets based upon quality scores and distinctiveness. So it is fine to carry out matching before or during the process of scoring images. In fact, scoring can even be done in the absence of reference catalog data in the `catalog` folder. 
-
-##### Custom scoring metrics
-
-*Under construction!* 
 
 &nbsp;  
 
@@ -240,17 +253,23 @@ match()
 
 a `Shiny` app will appear: 
 
+&nbsp;   
+
+![](img/matching_setup.png){width=90%}. 
+
 &nbsp;  
-![](img/matching_setup.png){width=70%}
-&nbsp;
+
 
 The first tab asks that you enter analyst initials. Doing so unlocks the option to select a ‘matching session’ file where your work will be saved. You can ‘Start a new session’ by providing a ‘Session Description’ (tip: I usually just use the name of the photo collection I am working on).
 
 Select the photo collection you wish to match, then go to the ‘GO MATCH’ tab. 
 
 &nbsp;  
-![](img/matching_match.png){width=70%}
-&nbsp;
+
+![](img/matching_match.png){width=90%}. 
+
+&nbsp;  
+
 
 The top image is from the photo collection. This is the photo-ID you are trying to find in the reference catalog. The bottom image is from the reference catalog. Information about this image is being pulled from `catalog/catalog key.csv`.
 
@@ -293,22 +312,31 @@ After clicking, a new button will appear to "Parse matches" into sets of unanimo
 If there are NO discrepancies, a button will appear to ‘Consolidate & store reviewed matches’ (see screenshot to bottom-right). Click it.  
 
 &nbsp;  
-![](img/reconcile_without.png){width=70%}
-&nbsp;
+
+![](img/reconcile_without.png){width=90%}. 
+
+&nbsp;  
+
 
 This will produce a .csv file in catRlog/3 matches/reviewed matches with the filename “Reviewed Matches <YYYMMDD HHMMSS> .csv”. Once done, simply close the app.  
 
 However, if there ARE discrepancies, you will be alerted as such:
 
 &nbsp;  
-![](img/reconcile_with.png){width=70%}
-&nbsp;
+
+![](img/reconcile_with.png){width=90%}. 
+
+&nbsp;  
+
 
 In this case, go to the “DISCREPANCY” tab:
 
+&nbsp;   
+
+![](img/reconcile_eg.png){width=90%}. 
+
 &nbsp;  
-![](img/reconcile_eg.png){width=70%}
-&nbsp;
+
 
 
 This page is divided into four sections:  
@@ -339,14 +367,20 @@ Before the photos you have matched can be assigned a corresponding ID code, all 
 register_new_ids()
 ```
 
+&nbsp;   
+
+![](img/register_setup.png){width=90%}. 
+
 &nbsp;  
-![](img/register_setup.png){width=70%}
-&nbsp;
+
 
 Select the Reviewed Matches you want to look in for new individuals and click ‘Import Reviewed Matches’. If there are any new whales to register, go to the “REGISTRATION!” tab.  
+&nbsp;   
+
+![](img/register_register.png){width=90%}. 
+
 &nbsp;  
-![](img/register_register.png){width=70%}
-&nbsp;
+
 
 The first new whale will be displayed. Above it is a small note indicating what the current final ID code is in your `"catalog key.csv"`.  
 
@@ -376,9 +410,12 @@ update_catalog()
 
 A `Shiny` app will launch:  
 
+&nbsp;   
+
+![](img/update_catalog.png){width=90%}. 
+
 &nbsp;  
-![](img/update_catalog.png){width=70%}
-&nbsp;
+
 
 The top image will show an individual in the reference catalog. The bottom images will be all instances of this individual found among the photo collections currently present 
 within the catRlog system.
@@ -403,9 +440,12 @@ Once all matches have an ID code, including new arrivals, you can update event t
 update_events()
 ```
 
+&nbsp;   
+
+![](img/assign.png){width=90%}. 
+
 &nbsp;  
-![](img/assign.png){width=70%}
-&nbsp;
+
 
 - To assign match results to event spreadsheets, first select the Reviewed Matches you want to use. 
 - Then select the event spreadsheet you want to update with the IDs in that match file.  
@@ -428,9 +468,12 @@ This action will cause the following to occur:
 
 To ‘publish’ your historical catalog as a print-ready PDF, such as something like this...
 
+&nbsp;   
+
+![](img/print_eg.png){width=95%}. 
+
 &nbsp;  
-![](img/print_eg.png){width=70%}
-&nbsp;
+
 
 ...run the `print_catalog()` function. 
 
@@ -466,8 +509,11 @@ analysis_dashbaord()
 ... which launches this `Shiny` app:  
 
 &nbsp;  
-![](img/analysis.png){width=70%}
-&nbsp;
+
+![](img/analysis.png){width=80%} 
+
+&nbsp;  
+
 
 - In this app, first select the datasets you wish to compile. (See examples of these data products in the next section.) Note that all of these datasets hinge upon the event spreadsheets in the `events` folder. If anything in those `events` spreadsheets are erroneous or incomplete, the datasets produced here will be also.   
 
@@ -487,9 +533,12 @@ Next we review the datasets produced by this app:
 
 A compilation of all events spreadsheets (each row is a photo-identification event; i.e., there can be multiple rows for a single group encounter)
 
+&nbsp;   
+
+![](img/events.png){width=90%}. 
+
 &nbsp;  
-![](img/events.png){width=70%}
-&nbsp;
+
 
 New columns: 
 - `groupid` = unique identifier for each group (YYYYMMDDGG);   
@@ -508,9 +557,11 @@ New columns:
 
 A summary of the encounter history for each individual (ILV = Individual-Level Variables; each row is a unique ID)
 
+&nbsp;   
+
+![](img/ILV.png){width=90%}. 
+
 &nbsp;  
-![](img/ILV.png){width=70%}
-&nbsp;
 
 - Columns `id`, `local`, `mother`, and `calf` are copied from `catatlog key.csv`.   
 
@@ -528,8 +579,11 @@ A summary of the encounter history for each individual (ILV = Individual-Level V
 A summary of each group encounter (each row is a unique encounter)
 
 &nbsp;  
-![](img/groups.png){width=70%}
-&nbsp;
+
+![](img/groups.png){width=90%}. 
+
+&nbsp;  
+
 
 New columns:   
 
@@ -561,8 +615,11 @@ New columns:
 Capture history summary of each individual, formatted for use in Rmark.
 
 &nbsp;  
-![](img/capture_histories.png){width=70%}
-&nbsp;
+
+![](img/capture_histories.png){width=90%}. 
+
+&nbsp;  
+
 
 New column: 
 
@@ -574,8 +631,11 @@ New column:
 Metrics for all possible dyadic associations. This spreadsheet can be extremely long if your catalog is large.
 
 &nbsp;  
-![](img/dyads.png){width=70%}
-&nbsp;
+
+![](img/dyads.png){width=90%}. 
+
+&nbsp;  
+
 
 - `yrA`, `yrB` = Number of years individuals A and B have been seen. 
 
@@ -600,15 +660,19 @@ Metrics for all possible dyadic associations. This spreadsheet can be extremely 
 An N x N matrix in which the columns list out the individuals, the rows list out the same individuals in the same order, and the data in cells provide the association weights. In this example, the diagonal values (representing self-association weights) have not been corrected to 0.
 
 &nbsp;  
-![](img/association_matrix.png){width=70%}
-&nbsp;
+
+![](img/association_matrix.png){width=90%}. 
+
+&nbsp;  
+
 
 
 ## Troubleshooting & updating
 
 If you discover any issues or ways to improve the package (we are sure there are many), please create a [Github Issue](https://github.com/ericmkeen/catRlog/issues).
 
-&nbsp;  
-![](img/fin.png){width=70%}
-&nbsp;  
+&nbsp;   
 
+![](img/fin.png){width=60%}
+&nbsp;  
+(*fin*)
