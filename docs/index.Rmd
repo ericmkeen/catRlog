@@ -207,7 +207,7 @@ Managing a photo-ID project involves these basic steps:
 Use catRlog's scoring app to efficiently rate each photo in a collection according to standard metrics.  
 
 ```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
-score_photos()
+score()
 ```
 
 When you open the app, the first tab to appear ...
@@ -465,6 +465,7 @@ This action will cause the following to occur:
 
 #### Prepare print-ready catalog
 
+**Note: this function is not yet ready for release; including planned documentation here as a placeholder!**
 
 To ‘publish’ your historical catalog as a print-ready PDF, such as something like this...
 
@@ -483,9 +484,12 @@ print_catalog()
 
 This function takes a single input, `settings`, which is a list that determines how exactly your catalog is compiled. 
 
-*Under construction!*. 
+```{r, echo=TRUE, eval=FALSE, include=TRUE, suppressWarnings=TRUE, suppressMessages=TRUE}
+# example of settings input will go here.
+```
 
-These settings will determine how the PDF is created. The default settings are staged for a two-feature catalog in which the abbreviations are L (i.e., left dorsal)s and R (i.e., right dorsals). However, this can be changed by opting out of the default settings. 
+These settings will determine how the PDF is created. The default settings are staged for a two-feature catalog in which the abbreviations are L (i.e., left dorsal)s and R (i.e., right dorsals). However, this can be changed by opting out of the default settings.   
+
 The most important setting is “Features to Include”. You can specify one or two features and provide any feature code you wish – it just has to correspond to the feature code used in the image filenames within catRlog / 4 catalog / catalog.  See further details within the detail column of settings.txt.
 
 **Tip:** if your catalog is large, I suggest building first with only a few IDs, e.g., 9, 

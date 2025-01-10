@@ -1,13 +1,25 @@
-#' Update catalog
+#' Update photo in reference catalog
 #'
-#' @return desc
+#' @param catalog_photos Path to folder with reference catalog ID photos. The default follows the instructions for the `catRlog` system setup.
+#' @param events Path to folder with events spreadsheets. The default follows the instructions for the `catRlog` system setup.
+#' @param photo_collections Path to folder containing subfolders of photo collections. The default follows the instructions for the `catRlog` system setup.
+
+#' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
 #' @export
+#' @import shiny
+#' @import DT
+#' @import shinyjs
+#' @import dplyr
+#' @import tidyselect
 #'
-update_catalog <- function(){
+update_catalog <- function(catalog_photos = 'catalog/catalog/',
+                           events = 'events/',
+                           photo_collections = 'photos/photos/'){
 
   # Load photo key
   # (Inventory the IDs you can get photos of based on event logs)
-  LOG <- setup.photo.key()
+  LOG <- setup_photo_key(events = events,
+                         photo_collections = photo_collections)
 
   #########################################################
   #########################################################
@@ -20,7 +32,7 @@ update_catalog <- function(){
 
     rv <- reactiveValues()
     rv$log <- LOG
-    rv$refdir <- "../4 catalog/catalog/"
+    rv$refdir <- catalog_photos
     rv$reflf <- c()
     rv$refi <- 1
     rv$refid <- ""
@@ -181,7 +193,7 @@ update_catalog <- function(){
 
       # Gather info on catalog photo to be replaced
       catid <- as.character(rv$id)
-      catpath <- paste0("../4 catalog/catalog/",catid,"X",fext)
+      catpath <- paste0(catalog_photos,catid,"X",fext)
       print(catid)
       print(catpath)
 

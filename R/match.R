@@ -3,6 +3,7 @@
 #' @param collections_to_match Path to folder containing subfolders of photo collections that you wish to match against your reference catalog. The default follows the instructions for the `catRlog` system setup.
 #' @param catalog_photos Path to folder with catalog ID photos. The default follows the instructions for the `catRlog` system setup.
 #' @param catalog_key Path to catalog key `.csv`. The default follows the instructions for the `catRlog` system setup.
+#' @param match_sessions Path to folder where matching sessions will be saved. The default follows the instructions for the `catRlog` system setup.
 #' @param filters Character vector of column names within the catalog key that can be used to filter the catalog. Up to three can be used.
 #' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
 #' @export
@@ -15,6 +16,7 @@
 match <- function(collections_to_match = 'photos/photos/',
                   catalog_photos = 'catalog/catalog/',
                   catalog_key = 'catalog/catalog key.csv',
+                  match_sessions = "matches/match sessions/",
                   filters = c('injury', 'nick', 'hole')){
 
   if(FALSE){
@@ -88,7 +90,7 @@ match <- function(collections_to_match = 'photos/photos/',
     output$filter_feature <- renderUI({
       if(!is.null(photo_key$feature)){
         #print('updating filter feature options...')
-        column(3, selectInput('filter_feature',
+        column(2, selectInput('filter_feature',
                               label='Features:',
                               choices = ops_feature,
                               selected = ops_feature,
@@ -196,7 +198,7 @@ match <- function(collections_to_match = 'photos/photos/',
     observe({
       if(!is.null(input$session)){
         if(input$session == "Start new session"){
-          matchdir <- "matches/match sessions/"
+          matchdir <- match_sessions
           if(input$note != ""){
             newfile <- paste0(matchdir,input$analyst," ",gsub(" ","",input$note)," ",gsub(":","",gsub("-","",as.character(Sys.time()))),".csv")
           }else{
@@ -245,7 +247,7 @@ match <- function(collections_to_match = 'photos/photos/',
     # List of current match sessions to choose from
     output$session <- renderUI({
       if(input$analyst != ""){
-        matchdir <- "matches/match sessions/"
+        matchdir <- match_sessions
         lf <- list.files(matchdir) ; lf
         lf <- paste0(matchdir,lf)
         sessops <- c("Start new session",lf)
@@ -452,7 +454,8 @@ match <- function(collections_to_match = 'photos/photos/',
                                                     br(),
                                                     uiOutput("matchcant"),br(),
                                                     uiOutput("matchnew"))),
-                                    fluidRow(uiOutput('filter_feature'),
+                                    fluidRow(column(1, h4('Filters:')),
+                                             uiOutput('filter_feature'),
                                              uiOutput('filter1'),
                                              uiOutput('filter2'),
                                              uiOutput('filter3'),

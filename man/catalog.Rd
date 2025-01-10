@@ -4,10 +4,24 @@
 \alias{catalog}
 \title{Open and explore your photo-ID catalog}
 \usage{
-catalog()
+catalog(
+  photos = "catalog/catalog/",
+  key = "catalog/catalog key.csv",
+  events = "events/",
+  filters = c("injury", "nick", "hole")
+)
+}
+\arguments{
+\item{photos}{Path to folder with catalog ID photos. The default follows the instructions for the \code{catRlog} system setup.}
+
+\item{key}{Path to catalog key \code{.csv}. The default follows the instructions for the \code{catRlog} system setup.}
+
+\item{events}{Path to folder with events spreadsheets. The default follows the instructions for the \code{catRlog} system setup.}
+
+\item{filters}{Character vector of column names within the catalog key that can be used to filter the catalog. Up to three can be used.}
 }
 \value{
-desc
+Shiny app. See the \href{https://ericmkeen.github.io/catRlog/}{vignette} for a detailed user guide.
 }
 \description{
 Open and explore your photo-ID catalog

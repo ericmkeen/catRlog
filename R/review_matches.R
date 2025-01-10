@@ -1,9 +1,21 @@
-#' Review matches
+#' Review matches from multiple analysts & reconcile discrepancies
 #'
-#' @return desc
+#' @param catalog_photos Path to folder with catalog ID photos. The default follows the instructions for the `catRlog` system setup.
+#' @param match_sessions Path to folder where matching sessions will be saved. The default follows the instructions for the `catRlog` system setup.
+#' @param reviewed_matches Path to folder where final reconciled/reviewed matching decisions should be saved. The default follows the instructions for the `catRlog` system setup.
+
+#' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
 #' @export
+#' @import shiny
+#' @import DT
+#' @import shinyjs
+#' @import dplyr
+#' @import tidyselect
 #'
-review_matches <- function(){
+review_matches <- function(catalog_photos = 'catalog/catalog/',
+                           match_sessions = "matches/match sessions/",
+                           reviewed_matches = 'matches/reviewed matches/'
+                           ){
 
   #########################################################
   #########################################################
@@ -13,7 +25,7 @@ review_matches <- function(){
     #########################################################
     # Setup reactive values
     rv <- reactiveValues()
-    rv$refdir <- "../4 catalog/catalog/"
+    rv$refdir <- catalog_photos
     rv$reflfull <- NULL
     rv$dfilter <- data.frame()
     rv$reflf <- NULL
@@ -37,7 +49,7 @@ review_matches <- function(){
     # Get list of match sessions
 
     output$matchfiles <- renderUI({
-      workdir <- "../3 matches/match sessions/" ; workdir
+      workdir <- match_sessions ; workdir
       dirops <- list.files(workdir)
       dirops <- paste0(workdir,dirops)
       if(length(dirops)>0){
@@ -336,7 +348,7 @@ review_matches <- function(){
       if(nrow(rv$cants)>0){mr <- rbind(mr,data.frame(rv$cants,action="CANT"))}
       if(nrow(rv$discrepancies)>0){mr <- rbind(mr,rv$discrepancies)}
 
-      fn <- paste0("../3 matches/reviewed matches/Reviewed Matches ",gsub(":","",gsub("-","",as.character(Sys.time()))),".csv") ; fn
+      fn <- paste0(reviewed_matches, "Reviewed Matches ",gsub(":","",gsub("-","",as.character(Sys.time()))),".csv") ; fn
       write.csv(mr,file=fn,quote=FALSE,row.names=FALSE)
       print("Reviewed matches stored!")
       print(fn)

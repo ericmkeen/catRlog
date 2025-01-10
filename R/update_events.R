@@ -1,9 +1,20 @@
-#' Update Events with IDs
+#' Update events spreadsheets with matched IDs
 #'
-#' @return desc
+#' @param events Path to folder with events spreadsheets. The default follows the instructions for the `catRlog` system setup.
+#' @param photo_collections Path to folder containing subfolders of photo collections that you wish to match against your reference catalog. The default follows the instructions for the `catRlog` system setup.
+#' @param reviewed_matches Path for where to look for set of final reconciled/reviewed matching decisions. The default follows the instructions for the `catRlog` system setup.
+#'
+#' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
 #' @export
+#' @import shiny
+#' @import DT
+#' @import shinyjs
+#' @import dplyr
+#' @import tidyselect
 #'
-update_events <- function(){
+update_events <- function(events = 'events/',
+                          photo_collections = 'photos/photos/',
+                          reviewed_matches = 'matches/reviewed matches/'){
 
   #########################################################
   #########################################################
@@ -23,13 +34,13 @@ update_events <- function(){
     # Select reviewed match file
 
     output$matchfile <- renderUI({
-      workdir <- "../3 matches/reviewed matches/" ; workdir
+      workdir <- reviewed_matches ; workdir
       dirops <- list.files(workdir)
       dirops <- paste0(workdir,dirops)
       if(length(dirops)>0){
         selectInput("matchfile",label=h4("Select reviewed matches to assign:"),
                     choices=dirops,selected=1,multiple=FALSE,width="90%")
-      }else{ "No match sessions found! Look in catRlog > 3 matches > reviewed matches" }
+      }else{ "No match sessions found! Look in catRlog > matches > reviewed matches" }
     })
 
     observe({
@@ -68,7 +79,7 @@ update_events <- function(){
 
     output$eventfile <- renderUI({
       if(!is.null(rv$events) && length(rv$events)>0){
-        workdir <- "../1 events/" ; workdir
+        workdir <- events ; workdir
         dirops <- list.files(workdir) ; dirops
         dirsub <- gsub(".csv","",dirops) ; dirsub
         matchi <- which(dirsub %in% rv$events) ; matchi
@@ -77,8 +88,8 @@ update_events <- function(){
           dirops <- paste0(workdir,dirops) ; dirops
           selectInput("eventfile",label=h4("Select event table to update with IDs:"),
                       choices=dirops,selected=1,multiple=FALSE,width="90%")
-        }else{ "No match sessions found! Look in catRlog > 3 matches > reviewed matches" }
-      }else{"No match sessions found! Look in catRlog > 3 matches > reviewed matches"}
+        }else{ "No match sessions found! Look in catRlog > matches > reviewed matches" }
+      }else{"No match sessions found! Look in catRlog > matches > reviewed matches"}
     })
 
     #########################################################
@@ -119,7 +130,7 @@ update_events <- function(){
       # First store backup
       ef <- basename(eventfile)
       ef <- gsub(".csv","",ef) ; ef
-      backupname <- paste0("../1 events/backups/",ef,"-",
+      backupname <- paste0(events,"backups/",ef,"-",
                            gsub("-","",gsub(":","",as.character(Sys.time()))),".csv") ; backupname
       write.csv(edf,file=backupname,quote=FALSE,row.names=FALSE)
 
@@ -138,7 +149,7 @@ update_events <- function(){
       head(edf)
 
       # Subset matchfile to this event file
-      photopath <- gsub("1 events","0 photos/photos",eventfile) ; photopath
+      photopath <- gsub(events,photo_collections,eventfile) ; photopath
       photopath <- gsub(".csv","/",photopath) ; photopath
 
       matches <- grep(photopath,mdf$path) ; matches

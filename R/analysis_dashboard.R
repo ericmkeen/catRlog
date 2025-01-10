@@ -1,9 +1,20 @@
 #' Launch analysis dashboard
 #'
-#' @return desc
+#' @param analysis_datasets Path to folder where analysis datasets will be saved. The default follows the instructions for the `catRlog` system setup.
+#' @param key Path to catalog key `.csv`. The default follows the instructions for the `catRlog` system setup.
+#' @param events Path to folder with events spreadsheets. The default follows the instructions for the `catRlog` system setup.
+#'
+#' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
+#' @import shiny
+#' @import DT
+#' @import shinyjs
+#' @import dplyr
+#' @import tidyselect
 #' @export
 #'
-analysis_dashboard <- function(){
+analysis_dashboard <- function(analysis_datasets = 'analysis/datasets/',
+                               events_path = 'events/',
+                               key = 'catalog/catalog key.csv'){
 
   #########################################################
   #########################################################
@@ -26,7 +37,7 @@ analysis_dashboard <- function(){
 
     observe({
       input$begin
-      datadir <- "../6 analysis/datasets/" ; datadir
+      datadir <- analysis_datasets ; datadir
       lf <- list.files(datadir) ; lf
       lf <- paste0(datadir,lf) ; lf
       lf <- lf[grep("csv",lf)] ; lf
@@ -97,10 +108,10 @@ analysis_dashboard <- function(){
       #########################################################
       # Stage base datasets
 
-      key <- read.csv("../4 catalog/catalog key.csv",stringsAsFactors=FALSE)
+      key <- read.csv(key,stringsAsFactors=FALSE)
       head(key)
 
-      suppressWarnings(events <- compile.events()) ; head(events) ; nrow(events)
+      suppressWarnings(events <- compile_events(events_path)) ; head(events) ; nrow(events)
       events$id <- as.character(events$id)
       ids <- unique(events$id) ; ids
 
@@ -210,7 +221,7 @@ analysis_dashboard <- function(){
           print("Compile Events: initializing . . . ")
           print(paste0("Number of photo-identifications = ",nrow(events)))
 
-          fn <- "../6 analysis/datasets/events" ; fn
+          fn <- paste0(analysis_datasets,"events") ; fn
           if(filetype=="rds"){saveRDS(events,file=paste0(fn,".RDS"))}
           if(filetype=="csv"){write.csv(events,file=paste0(fn,".csv"),quote=FALSE,row.names=FALSE)}
 
@@ -223,10 +234,10 @@ analysis_dashboard <- function(){
 
         if("groups" %in% input$sets){
           print("Compile Groups: initializing . . . ")
-          suppressWarnings(grp <- compile.groups(events))
+          suppressWarnings(grp <- compile_groups(events))
           print(paste0("Number of encounters = ",nrow(grp)))
 
-          fn <- "../6 analysis/datasets/groups" ; fn
+          fn <- paste0(analysis_datasets,"groups") ; fn
           if(filetype=="rds"){saveRDS(grp,file=paste0(fn,".RDS"))}
           if(filetype=="csv"){write.csv(grp,file=paste0(fn,".csv"),quote=FALSE,row.names=FALSE)}
 
@@ -239,10 +250,10 @@ analysis_dashboard <- function(){
 
         if("ilv" %in% input$sets){
           print("Individual-Level Variables: initializing . . . ")
-          suppressWarnings(ilv <- compile.ILV(events))
+          suppressWarnings(ilv <- compile_ILV(events))
           print(paste0("Number of unique individuals = ",nrow(ilv)))
 
-          fn <- "../6 analysis/datasets/ILV" ; fn
+          fn <- paste0(analysis_datasets,"ILV") ; fn
           if(filetype=="rds"){saveRDS(ilv,file=paste0(fn,".RDS"))}
           if(filetype=="csv"){write.csv(ilv,file=paste0(fn,".csv"),quote=FALSE,row.names=FALSE)}
 
@@ -255,12 +266,12 @@ analysis_dashboard <- function(){
 
         if("dyads" %in% input$sets){
           print("Compile Dyads list: initializing . . . ")
-          suppressWarnings(ilv <- compile.ILV(events))
-          suppressWarnings(dyads <- compile.dyads(ilv=ilv,mr=events))
+          suppressWarnings(ilv <- compile_ILV(events))
+          suppressWarnings(dyads <- compile_dyads(ilv=ilv,mr=events))
           print(paste0("Number of dyads possible = ",nrow(dyads)))
           print(paste0("Number of dyads realized = ",nrow(dyads[dyads$X>0,])))
 
-          fn <- "../6 analysis/datasets/dyads" ; fn
+          fn <- paste0(analysis_datasets,"dyads") ; fn
           if(filetype=="rds"){saveRDS(dyads,file=paste0(fn,".RDS"))}
           if(filetype=="csv"){write.csv(dyads,file=paste0(fn,".csv"),quote=FALSE,row.names=FALSE)}
 
@@ -273,13 +284,13 @@ analysis_dashboard <- function(){
 
         if("mx" %in% input$sets){
           print("Produce Association Matrix: initializing . . . ")
-          suppressWarnings(ilv <- compile.ILV(events))
-          suppressWarnings(dyads <- compile.dyads(ilv=ilv,mr=events))
-          suppressWarnings(am <- association.matrix(dyads,var=aindex))
+          suppressWarnings(ilv <- compile_ILV(events))
+          suppressWarnings(dyads <- compile_dyads(ilv=ilv,mr=events))
+          suppressWarnings(am <- association_matrix(dyads,var=aindex))
 
           if(input$zero){diag(am$mx) <- 0}
 
-          fn <- "../6 analysis/datasets/association-matrix" ; fn
+          fn <- paste0(analysis_datasets,"association-matrix") ; fn
           if(filetype=="rds"){saveRDS(am,file=paste0(fn,".RDS"))}
           if(filetype=="csv"){write.csv(am$mx,file=paste0(fn,".csv"),quote=FALSE,row.names=TRUE)}
 
@@ -292,11 +303,11 @@ analysis_dashboard <- function(){
 
         if("ch" %in% input$sets){
           print("Produce Capture Histories: initializing . . . ")
-          suppressWarnings(ilv <- compile.ILV(events))
-          suppressWarnings(groups <- compile.groups(events))
-          suppressWarnings(ch <- caphist(ILV=ilv,groups=groups,samp.period="year"))
+          suppressWarnings(ilv <- compile_ILV(events))
+          suppressWarnings(groups <- compile-groups(events))
+          suppressWarnings(ch <- capture_history(ILV=ilv,groups=groups,samp.period="year"))
 
-          fn <- "../6 analysis/datasets/capture-history" ; fn
+          fn <- paste0(analysis_datasets,"capture-history") ; fn
           if(filetype=="rds"){saveRDS(ch,file=paste0(fn,".RDS"))}
           if(filetype=="csv"){write.csv(ch,file=paste0(fn,".csv"),quote=FALSE,row.names=FALSE)}
 
@@ -308,7 +319,7 @@ analysis_dashboard <- function(){
 
         print("Updating datatables in app: initializing . . . ")
 
-        datadir <- "../6 analysis/datasets/" ; datadir
+        datadir <- analysis_datasets ; datadir
         lf <- list.files(datadir) ; lf
         lf <- paste0(datadir,lf) ; lf
         lf <- lf[grep("csv",lf)] ; lf

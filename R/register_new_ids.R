@@ -1,9 +1,22 @@
 #' Register new IDs in your catalog
 #'
-#' @return desc
-#' @export
+#' @param catalog_photos Path to folder with catalog ID photos. The default follows the instructions for the `catRlog` system setup.
+#' @param key Path to catalog key `.csv`. The default follows the instructions for the `catRlog` system setup.
+#' @param old_keys Path to folder where backup old versions of the `key` should be saved before any changes are made to `key`. The default follows the instructions for the `catRlog` system setup.
+#' @param reviewed_matches Path for where to look for set of final reconciled/reviewed matching decisions. The default follows the instructions for the `catRlog` system setup.
 #'
-register_new_ids <- function(){
+#' @return Shiny app. See the [vignette](https://ericmkeen.github.io/catRlog/) for a detailed user guide.
+#' @export
+#' @import shiny
+#' @import DT
+#' @import shinyjs
+#' @import dplyr
+#' @import tidyselect
+#'
+register_new_ids <- function(catalog_photos = 'catalog/catalog/',
+                             key = 'catalog/catalog key.csv',
+                             old_keys = 'catalog/old keys/',
+                             reviewed_matches = 'matches/reviewed matches/'){
 
   #########################################################
   #########################################################
@@ -14,7 +27,7 @@ register_new_ids <- function(){
     # Setup reactive values
 
     rv <- reactiveValues()
-    rv$key <- read.csv("../4 catalog/catalog key.csv",stringsAsFactors=FALSE) #; head(rv$key)
+    rv$key <- read.csv(key,stringsAsFactors=FALSE) #; head(rv$key)
     rv$refi <- 1
     rv$worklfull <- NULL
     rv$worklf <- NULL
@@ -27,7 +40,7 @@ register_new_ids <- function(){
     # Select file of reviewed matches
 
     output$matchfiles <- renderUI({
-      workdir <- "../3 matches/reviewed matches/" ; workdir
+      workdir <- reviewed_matches ; workdir
       dirops <- list.files(workdir)
       dirops <- paste0(workdir,dirops)
       if(length(dirops)>0){
@@ -172,7 +185,7 @@ register_new_ids <- function(){
         print("FYI! This ID was already taken in the catalog -- the key was not updated, but the photo feature was added to the catalog folder.")
       }else{
         # Save current copy of catalog key as backup
-        write.csv(key,file=paste0("../4 catalog/old keys/catalog key ",as.character(Sys.Date()),".csv"),
+        write.csv(key,file=paste0(old_keys, "catalog key ",as.character(Sys.Date()),".csv"),
                   quote=FALSE,row.names=FALSE,na="")
 
         # Update catalog key
@@ -180,15 +193,15 @@ register_new_ids <- function(){
         blankline[which(names(key)=="id")] <- id
         blankline[which(names(key)=="local")] <- newname
         key <- rbind(key,blankline) ; key
-        write.csv(key,file="../4 catalog/catalog key.csv",quote=FALSE,row.names=FALSE,na="")
-        rv$key <- read.csv("../4 catalog/catalog key.csv",stringsAsFactors=FALSE)
+        write.csv(key,file=catalog_key,quote=FALSE,row.names=FALSE,na="")
+        rv$key <- read.csv(catalog_key,stringsAsFactors=FALSE)
       }
 
       # Update catalog folder of photos
       pathext <- tools::file_ext(path) ; pathext
       pathext <- paste0(".",pathext) ; pathext
       newid <- paste0(id,ftr,pathext) ; newid
-      newcatfile <- paste0("../4 catalog/catalog/",newid)  ; newcatfile
+      newcatfile <- paste0(catalog_photos, newid)  ; newcatfile
       file.copy(from=path,to=newcatfile)
 
       # Add this to the growing list of new arrivals during the match session
@@ -202,12 +215,6 @@ register_new_ids <- function(){
       write.csv(rv$matchdata,file=input$matchfiles,quote=FALSE,row.names=FALSE)
 
     })
-
-    #output$addna <- renderUI({
-    #  if(nrow(rv$newarrivals) > 0){
-    #    actionButton("addna",label=h4(HTML("Link this new whale <br/> to photo above")))
-    #  }
-    #})
 
   }
 

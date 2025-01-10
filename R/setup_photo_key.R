@@ -1,12 +1,16 @@
 #' Setup photo key
 #'
-#' @return desc
+#' @param events Path to folder with events spreadsheets. The default follows the instructions for the `catRlog` system setup.
+#' @param photo_collections Path to folder containing subfolders of photo collections. The default follows the instructions for the `catRlog` system setup.
+#'
+#' @return An internal function not typically called by users.
 #' @export
 #'
-setup_photo_key <- function(){
+setup_photo_key <- function(events = 'events/',
+                            photo_collections = 'photos/photos/'){
   # Inventory the IDs you can get photos of based on event logs
 
-  evdir <- "../1 events/"
+  evdir <- events
   lf <- list.files(evdir) ; lf
   lf <- lf[lf!="backups"] ; lf
   lf <- paste0(evdir,lf) ; lf
@@ -18,9 +22,9 @@ setup_photo_key <- function(){
     mri <- read.csv(lfi,stringsAsFactors=FALSE) ; mri
     fili <- as.character(mri$file) ; fili
     idi <- as.character(mri$id) ; idi
-    pathcore <- gsub("../1 events/","",lfi) ; pathcore
+    pathcore <- gsub(evdir,"",lfi) ; pathcore
     pathcore <- gsub(".csv","",pathcore) ; pathcore
-    photopath <- paste0("../0 photos/photos/",pathcore,"/") ; photopath
+    photopath <- paste0(photo_collections,pathcore,"/") ; photopath
     newi <- data.frame(id=idi,core=pathcore,photo=photopath,file=fili) ; newi
     log <- rbind(log,newi)
   }

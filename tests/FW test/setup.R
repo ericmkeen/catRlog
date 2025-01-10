@@ -12,3 +12,14 @@ setup_project()
 
 # Explore digital catalog
 catalog()
+
+# Worklow
+score()
+match()
+review_matches()
+register_new_ids()
+update_catalog()
+update_events()
+print_catalog()
+analysis_dashboard()
+
